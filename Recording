@@ -1,13 +1,17 @@
 public class PracticePage extends Fragment implements AudioListAdapter.OnItemListClickListener{
 
     private ImageButton back;
-    private ImageButton go_record;
-    private String recordfile;
-    private String recordpath;
+    private ImageButton goRecord;
+    private String recordFile;
+    private String recordPath;
     private MediaRecorder recorder;
-    private MediaPlayer player;
-    private boolean isPlaying;
+    private MediaPlayer player = new MediaPlayer();
+    private boolean isPlaying = false;
     private OkHttpClient okHttpClient = new OkHttpClient();
+    private File selectedFile;
+    private ImageButton playRecording;
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private String [] permissions = {Manifest.permission.RECORD_AUDIO};
 
     public PracticePage() {
         // Required empty public constructor
@@ -25,14 +29,14 @@ public class PracticePage extends Fragment implements AudioListAdapter.OnItemLis
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        go_record = view.findViewById(R.id.practice_start);
+        goRecord = view.findViewById(R.id.practice_start);
         back = view.findViewById(R.id.back_exercise_fragment);
         Button upload = view.findViewById(R.id.upload_recording);
 
-        recordpath = getActivity().getExternalFilesDir("/").getAbsolutePath();   // the path is a string
+        recordPath = getActivity().getExternalFilesDir("/").getAbsolutePath();   // the path is a string
 
         File[] allFiles;
-        File directory = new File(recordpath);
+        File directory = new File(recordPath);
         allFiles = directory.listFiles();
 
 
@@ -43,7 +47,7 @@ public class PracticePage extends Fragment implements AudioListAdapter.OnItemLis
         audiolist.setAdapter(audioListAdapter); // set adapter
 
 
-        go_record.setOnClickListener(new View.OnClickListener() {
+        goRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 final View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_pop_up_window, null);  // LayoutInflater is never directly used. it actually the same as oncreate view
@@ -143,13 +147,14 @@ public class PracticePage extends Fragment implements AudioListAdapter.OnItemLis
     }
 
     public void startRecording() {
+        ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_RECORD_AUDIO_PERMISSION);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd   hh-mm-ss", Locale.TAIWAN);
         Date now = new Date();
-        recordfile = formatter.format(now) + ".wav";
+        recordFile = formatter.format(now) + ".wav";
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        recorder.setOutputFile(recordpath + "/" + recordfile);  // the path is created in recordpath;  the / and recordfile is the file name (it creates the new file at the same time)
+        recorder.setOutputFile(recordPath + "/" + recordFile);  // the path is created in recordpath;  the / and recordfile is the file name (it creates the new file at the same time)
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         try {
             recorder.prepare();
@@ -160,20 +165,28 @@ public class PracticePage extends Fragment implements AudioListAdapter.OnItemLis
     }
 
     public void deleteRecording() {
-        String filepath = recordpath + "/" + recordfile;
+        String filepath = recordPath + "/" + recordFile;
         File recordingFile = new File(filepath);
         recordingFile.delete();
     }
 
     @Override                 // implements interface method, must override it to finish implementation of interface
     public void onItemClick(File file, int position) {
-        isPlaying = true;
-        startPlay(file);
+
+        if (!isPlaying) {
+            startPlay(file);
+            isPlaying = true;
+            playRecording = getView().findViewById(R.id.play_recording);
+            playRecording.setImageResource(R.drawable.pause_recording_button);
+        }
+        else {
+            stopPlay(file);
+            playRecording.setImageResource(R.drawable.play_button);
+            isPlaying = false;
+        }
     }
 
     private void startPlay(File file) {
-        player = new MediaPlayer();
-
         try {
             player.setDataSource(file.getAbsolutePath());
             player.prepare();
@@ -181,5 +194,13 @@ public class PracticePage extends Fragment implements AudioListAdapter.OnItemLis
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void stopPlay(File file){
+        player.stop();
+        player.reset();
+    }
+    @Override
+    public void onItemLongClick(File file, int position) {
+        selectedFile = file;
 
     }
