@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="380dp"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal"
+    tools:context=".PopUpWindowFragment">
+
+    <Button
+        android:id="@+id/practice_record"
+        android:layout_width="359dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/button7"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/pop_up_window_items"
+        android:text="Recording Now"
+        android:textAllCaps="false"
+        android:textColor="#355B95"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="359dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/button8"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/pop_up_window_items"
+        android:textAllCaps="false"
+        android:textColor="#355B95"
+        android:text="Upload video"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="359dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/practice_dismiss"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="38dp"
+        android:background="@drawable/pop_up_window_items"
+        android:textAllCaps="false"
+        android:textColor="#355B95"
+        android:text="Upload files"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/practice_dismiss"
+        android:layout_width="359dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="49dp"
+        android:background="@drawable/pop_up_window_items"
+        android:textAllCaps="false"
+        android:textColor="#355B95"
+        android:text="Dismiss"
+        android:textSize="20sp" />
+
+</RelativeLayout>

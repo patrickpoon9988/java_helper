@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph2"
+    app:startDestination="@id/selfLearningMain">
+    <fragment
+        android:id="@+id/selfLearningMain"
+        android:name="com.example.lingua_try.SelfLearningMain"
+        android:label="Self-Learning"
+        tools:layout="@layout/activity_learning">
+        <action
+            android:id="@+id/action_selfLearningMain_to_exerciseFragment"
+            app:destination="@id/exerciseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseFragment"
+        android:name="com.example.lingua_try.ExerciseFragment"
+        android:label=""
+        tools:layout="@layout/fragment_exercise" >
+        <action
+            android:id="@+id/action_exerciseFragment_to_practicePage"
+            app:destination="@id/practicePage" />
+        <action
+            android:id="@+id/action_exerciseFragment_to_selfLearningMain"
+            app:destination="@id/selfLearningMain" />
+    </fragment>
+    <fragment
+        android:id="@+id/practicePage"
+        android:name="com.example.lingua_try.PracticePage"
+        android:label=""
+        tools:layout="@layout/fragment_practice_page" >
+        <action
+            android:id="@+id/action_practicePage_to_popUpWindow"
+            app:destination="@id/popUpWindow" />
+        <action
+            android:id="@+id/action_practicePage_to_exerciseFragment"
+            app:destination="@id/exerciseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/popUpWindow"
+        android:name="com.example.lingua_try.PopUpWindowFragment"
+        android:label="fragment_pop_up_window"
+        tools:layout="@layout/fragment_pop_up_window" >
+        <action
+            android:id="@+id/action_popUpWindow_to_practicePage"
+            app:destination="@id/practicePage" />
+    </fragment>
+</navigation>
